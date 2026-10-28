@@ -3,14 +3,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
 <ion-content class="agendar-content" [fullscreen]="true">
-  <div *ngIf="carregandoInicial; else conteudoAgendamento" class="page-loading-shell">
-    <div class="page-loading-dots" aria-label="Carregando">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
-
-  <ng-template #conteudoAgendamento>
-    <div class="page-wrapper">
+  <div class="page-wrapper">
 
       <!-- Hero Banner -->
       <div class="hero-banner">
@@ -32,8 +25,38 @@
         </div>
       </div>
 
+      <!-- Skeleton do corpo enquanto os dados do agendamento são carregados -->
+      <div class="corpo-content agendamento-skeleton" *ngIf="carregandoInicial" aria-label="Carregando agendamento">
+        <div class="medico-card skeleton-medico-card">
+          <span class="skeleton-medico-avatar"></span>
+          <div class="skeleton-medico-info">
+            <span class="skeleton-line skeleton-medico-nome"></span>
+            <span class="skeleton-line skeleton-medico-especialidade"></span>
+            <span class="skeleton-line skeleton-medico-rating"></span>
+          </div>
+        </div>
+
+        <div class="secao-card skeleton-calendario-card">
+          <span class="skeleton-line skeleton-secao-titulo"></span>
+          <span class="skeleton-line skeleton-mes"></span>
+          <div class="skeleton-semana">
+            <span class="skeleton-line" *ngFor="let item of [1, 2, 3, 4, 5, 6, 7]"></span>
+          </div>
+          <div class="skeleton-calendario-grid">
+            <span class="skeleton-dia" *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]"></span>
+          </div>
+        </div>
+
+        <div class="secao-card skeleton-observacoes-card">
+          <span class="skeleton-line skeleton-secao-titulo skeleton-observacoes-titulo"></span>
+          <span class="skeleton-line skeleton-textarea"></span>
+        </div>
+
+        <div class="bottom-spacer"></div>
+      </div>
+
       <!-- Corpo branco -->
-      <div class="corpo-content">
+      <div class="corpo-content" *ngIf="!carregandoInicial">
 
         <!-- Card do médico -->
         <div class="medico-card">
@@ -148,7 +171,6 @@
       </div>
 
     </div>
-  </ng-template>
 </ion-content>
 
 <!--Tela de sucesso confirmando agendamento-->

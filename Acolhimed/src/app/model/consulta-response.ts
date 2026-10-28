@@ -1,13 +1,10 @@
-import { EspecialidadeModel } from "./especialidade.model";
-import { MedicoModel } from "./medico.model";
-import { UsuarioModel } from "./usuario.model";
-
 export type StatusConsulta = 'agendada' | 'em_andamento' | 'finalizada' | 'cancelada';
 
 export class ConsultaResponseModel {
     id: string;
-    paciente: UsuarioModel;
-    medico: MedicoModel;
+    pacienteFoto: string;
+    medicoFoto: string;
+    medicoId: string;
     dataHora: Date;
     especialidadeId: string;
     especialidadeNome: string;
@@ -22,8 +19,9 @@ export class ConsultaResponseModel {
 
     constructor() {
         this.id = '';
-        this.paciente = new UsuarioModel();
-        this.medico = new MedicoModel();
+        this.pacienteFoto = "";
+        this.medicoFoto = "";
+        this.medicoId = "";
         this.dataHora = new Date();
         this.especialidadeId = ""
         this.especialidadeNome = "";

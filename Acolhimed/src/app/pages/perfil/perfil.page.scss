@@ -17,6 +17,76 @@ $red-light: #FEE2E2;
   position: relative;
 }
 
+// ---- Skeleton loading ----
+.perfil-skeleton {
+  min-height: 100%;
+  padding-bottom: 110px;
+  background: #fafafa;
+}
+
+.perfil-skeleton-body {
+  padding: 24px 0 110px;
+  background: #fafafa;
+}
+
+.perfil-skeleton-hero,
+.perfil-skeleton-section,
+.perfil-skeleton-card {
+  background: linear-gradient(100deg, #d7e1ec 25%, #edf2f7 45%, #d7e1ec 65%);
+  background-size: 250% 100%;
+  animation: skeleton-shimmer-perfil 1.3s ease-in-out infinite;
+}
+
+.perfil-skeleton-hero {
+  position: relative;
+  height: 225px;
+  border-radius: 0 0 28px 28px;
+  color: white;
+  text-align: center;
+}
+
+.perfil-skeleton-hero h1 {
+  margin: 0;
+  padding-top: 48px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 25px;
+}
+
+.perfil-skeleton-avatar {
+  width: 120px;
+  height: 120px;
+  margin: 20px auto 12px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.perfil-skeleton-name {
+  width: 130px;
+  height: 26px;
+  margin: 0 auto;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.perfil-skeleton-section {
+  width: 180px;
+  height: 18px;
+  border-radius: 6px;
+  margin: 0 24px 14px;
+}
+
+.perfil-skeleton-card {
+  height: 72px;
+  border-radius: 18px;
+  margin: 0 20px 12px;
+}
+
+@keyframes skeleton-shimmer-perfil {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
 // ---- Hero Banner ----
 .hero-banner {
   position: relative;

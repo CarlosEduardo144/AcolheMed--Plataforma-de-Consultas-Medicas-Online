@@ -101,9 +101,10 @@
 
         <!-- Login Button -->
         <div class="form-group">
-          <ion-button expand="block" type="submit" class="login-button" [disabled]="loginForm.invalid">
-            Entrar
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" slot="end">
+          <ion-button expand="block" type="submit" class="login-button" [disabled]="loginForm.invalid || carregandoLogin">
+            <span>{{ carregandoLogin ? '' : 'Entrar' }}</span>
+            <span *ngIf="carregandoLogin" class="login-spinner" slot="end" aria-label="Entrando"></span>
+            <svg *ngIf="!carregandoLogin" width="16" height="16" viewBox="0 0 24 24" fill="none" slot="end">
               <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="white" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>

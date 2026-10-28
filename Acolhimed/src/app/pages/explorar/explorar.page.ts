@@ -32,7 +32,6 @@ export class ExplorarPage {
   especialidadeSelecionada?: EspecialidadeModel;
   carregandoMedicos: boolean = false;
   carregandoInicial: boolean = true;
-  usuario: any;
   token: TokenModel;
 
   constructor(private toastController: ToastController,
@@ -49,16 +48,14 @@ export class ExplorarPage {
 
   carregarDados(){
     forkJoin({
-      usuario: this.usuarioService.buscarPorId(this.token.id),
       especialidades: this.especialidadeService.listar(),
       medicos: this.usuarioService.getMedicos(),
     }).subscribe({
-      next: ({ usuario, especialidades, medicos }) => {
-        this.usuario = usuario;
+      next: ({especialidades, medicos }) => {
         this.especialidades = especialidades;
         this.medicos = medicos;
         this.especialidadesFiltradas = especialidades;
-        this.carregarMedicosBemAvaliados()
+        this.carregarMedicosBemAvaliados();
       },
       error: (erro) => {
         this.carregandoInicial = false;

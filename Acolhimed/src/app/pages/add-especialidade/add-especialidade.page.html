@@ -3,14 +3,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
 <ion-content class="especialidades-content" [fullscreen]="true">
-  <div *ngIf="carregando; else conteudoEspecialidades" class="page-loading-shell">
-    <div class="page-loading-dots" aria-label="Carregando">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
-
-  <ng-template #conteudoEspecialidades>
-
   <!-- Hero Banner -->
   <div class="hero-banner">
     <div class="hero-shapes">
@@ -63,9 +55,11 @@
       </ion-item>
     </ion-list>
 
-    <div class="ion-text-center ion-padding" *ngIf="carregando">
-      <div class="page-loading-dots" aria-label="Carregando">
-        <span></span><span></span><span></span>
+    <div class="lista-especialidades skeleton-lista-especialidades" *ngIf="carregando" aria-label="Carregando especialidades">
+      <div class="skeleton-especialidade-item" *ngFor="let item of [1, 2, 3, 4, 5, 6, 7]">
+        <span class="skeleton-especialidade-avatar"></span>
+        <span class="skeleton-especialidade-nome"></span>
+        <span class="skeleton-especialidade-checkbox"></span>
       </div>
     </div>
 
@@ -81,6 +75,5 @@
     </button>
 
   </div>
-  </ng-template>
 
 </ion-content>

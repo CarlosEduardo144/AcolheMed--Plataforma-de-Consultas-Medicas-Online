@@ -12,6 +12,7 @@ import { ConsultaService } from 'src/app/services/consulta-service';
 import { ConsultaResponseModel } from 'src/app/model/consulta-response';
 import { TokenService } from 'src/app/services/token-service';
 import { TokenModel } from 'src/app/model/token-model';
+import { DashBoardModel } from 'src/app/model/dash-board-model';
 
 
 @Component({
@@ -25,29 +26,22 @@ import { TokenModel } from 'src/app/model/token-model';
 })
 export class InicioPage implements OnInit {
 
-  medicosDisponiveis: number;
-  especialidadesDisponiveis: number;
   usuario!: PacienteModel | MedicoModel;
   consultaEmAndamento: ConsultaResponseModel;
   carregandoInicial = true;
-  qtdConsultas: number;
-  qtdPacientesAtendidos: number;
   token: TokenModel;
+  dashBoard: DashBoardModel;
 
   constructor(
     private navCtrl: NavController,
     private usuarioService: UsuarioService,
-    private especialidadeService: EspecialidadeService,
     private toastController: ToastController,
     private consultaService: ConsultaService,
     private tokenService: TokenService
   ) {
-    this.medicosDisponiveis = 0;
-    this.qtdConsultas = 0;
-    this.qtdPacientesAtendidos = 0;
-    this.especialidadesDisponiveis = 0;
     this.consultaEmAndamento = new ConsultaResponseModel();
     this.token = new TokenModel();
+    this.dashBoard = new DashBoardModel();
   }
 
   ngOnInit() {
@@ -70,63 +64,17 @@ export class InicioPage implements OnInit {
 
     forkJoin({
       usuario: this.usuarioService.buscarPorId(this.token.id),
-      medicos: this.usuarioService.getMedicos(),
-      especialidades: this.especialidadeService.listar(),
+      dashBoard: this.usuarioService.getDashBoard(),
     }).subscribe({
-      next: ({ usuario, medicos, especialidades }) => {
-        if (!usuario) {
-          this.navCtrl.navigateBack('/login');
-          return;
-        }
-
+      next: ({ usuario, dashBoard }) => {
         this.usuario = usuario;
-        this.medicosDisponiveis = medicos.length;
-        this.especialidadesDisponiveis = especialidades.length;
-        this.carregarConsultasEmAndamento();
-        this.carregarQtdPacientesAtendidos();
-        if (usuario.tipoUsuario == "medico") {
-          this.carregarAgenda();
-        }
+        this.dashBoard = dashBoard;
+        this.consultaEmAndamento = dashBoard.consultaEmAndamento
         this.carregandoInicial = false;
       },
       error: (erro) => {
         this.carregandoInicial = false;
         this.exibirMensagem(erro.error?.message || 'Erro ao carregar informações iniciais.');
-      }
-    });
-  }
-
-
-  carregarQtdPacientesAtendidos() {
-    this.consultaService.getConsultas(this.token.id).subscribe({
-      next: (resultado) => {
-        this.qtdPacientesAtendidos = resultado.filter(
-          consulta => consulta.status === 'finalizada'
-        ).length;
-      },
-      error: (erro) => {
-        this.exibirMensagem('Erro ao carregar consultas do médico');
-      }
-    });
-  }
-
-  carregarAgenda() {
-    this.consultaService.getAgendaDoMedico(this.token.id).subscribe({
-      next: (resultado) => {
-        this.qtdConsultas = resultado.length;
-      },
-      error: (erro) => {
-        this.exibirMensagem("Erro ao carrgar informações da agenda do médico");
-      }
-    });
-  }
-
-  carregarConsultasEmAndamento() {
-    this.consultaService.buscarConsultasEmAndamento(this.token.id).subscribe({
-      next: (resultado) => {
-        this.consultaEmAndamento = resultado;
-      },
-      error: () => {
       }
     });
   }
@@ -147,7 +95,7 @@ export class InicioPage implements OnInit {
         if (exibirCarregamento) {
           this.carregandoInicial = false;
         }
-        this.exibirMensagem(erro.error.message);
+        this.exibirMensagem(erro.error?.message || 'Erro ao carregar usuário');
       }
     });
   }

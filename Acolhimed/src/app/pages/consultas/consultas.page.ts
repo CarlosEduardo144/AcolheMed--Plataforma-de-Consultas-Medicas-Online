@@ -28,7 +28,7 @@ interface GrupoDia {
 }
 
 const JANELA_CANCELAMENTO_HORAS = 24;
-const JANELA_CHAMADA_MINUTOS = 15; // botão de ligar ativa X min antes/depois do horário
+const JANELA_CHAMADA_MINUTOS = 300; // botão de ligar ativa X min antes/depois do horário
 
 @Component({
   selector: 'app-consultas',
@@ -42,7 +42,6 @@ export class ConsultasPage implements OnInit {
   StatusConsulta = StatusConsulta; // exposto pro template
   consultas: ConsultaResponseModel[];
   consultasCarregadas = false;
-  usuario: any;
 
   painelFiltroAberto = false;
   filtroOrdenacao: FiltroOrdenacaoAgendamento = 'recentes';
@@ -60,7 +59,6 @@ export class ConsultasPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private consultaService: ConsultaService,
-    private usuarioService: UsuarioService,
     private prescricaoService: PrescricaoService,
     private toastController: ToastController,
     private route: ActivatedRoute,
@@ -76,7 +74,6 @@ export class ConsultasPage implements OnInit {
       this.exibirMensagem('Erro ao identificar usuário.');
       return;
     } else {
-      this.carregarUsuario();
       this.route.queryParams.subscribe(params => {
         if (params['aba']) {
           this.abaAtiva = params['aba'];
@@ -92,7 +89,7 @@ export class ConsultasPage implements OnInit {
   carregarConsultas() {
     this.consultasCarregadas = false;
 
-    this.consultaService.getConsultas(this.usuario?.id).subscribe({
+    this.consultaService.getConsultas(this.token.id).subscribe({
       next: (consultas) => {
         // dataHora vem como string (ISO) da API — converte pra Date de verdade
         this.consultas = consultas.map(c => ({
@@ -110,27 +107,7 @@ export class ConsultasPage implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.carregarUsuario();
-  }
-
-  carregarUsuario() {
-    this.usuarioService.buscarPorId(this.token.id).subscribe({
-      next: (usuario) => {
-        this.usuario = usuario;
-
-        if (!this.usuario) {
-          this.navCtrl.navigateBack('/login');
-        }
-
-        this.carregarConsultas();
-
-      },
-      error: (erro) => {
-        console.error(erro);
-        this.consultasCarregadas = true;
-        this.exibirMensagem("Erro ao carregar usuário" + erro.error.message);
-      }
-    });
+    this.carregarConsultas();
   }
 
   // ---- Filtragem por aba + busca ----

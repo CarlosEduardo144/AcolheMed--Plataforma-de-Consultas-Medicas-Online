@@ -34,7 +34,7 @@ export class MedicoPage implements OnInit {
         next: (medico) => {
           this.medico = medico;
           this.carregarAvaliacoes(id);
-          
+
         },
         error: (err) => {
           this.carregandoInicial = false;
@@ -47,17 +47,17 @@ export class MedicoPage implements OnInit {
   }
 
   private carregarAvaliacoes(medicoId: string) {
-  this.avaliacaoService.getAvaliacoesMedico(medicoId).subscribe({
-    next: (avaliacoes) => {
-      this.avaliacoes = avaliacoes ?? [];
-      this.carregandoInicial = false;
-    },
-    error: (err) => {
-      console.error('Erro ao carregar avaliações', err);
-      this.carregandoInicial = false;
-    }
-  });
-}
+    this.avaliacaoService.getAvaliacoesMedico(medicoId).subscribe({
+      next: (avaliacoes) => {
+        this.avaliacoes = avaliacoes ?? [];
+        this.carregandoInicial = false;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar avaliações', err);
+        this.carregandoInicial = false;
+      }
+    });
+  }
   toggleFotoAmpliada() {
     this.fotoAmpliada = !this.fotoAmpliada;
   }

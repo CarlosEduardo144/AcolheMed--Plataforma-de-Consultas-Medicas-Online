@@ -32,8 +32,8 @@
       <ng-container *ngIf="consulta">
         <div class="avatar-wrap">
           <div class="avatar-medico">
-            <img *ngIf="consulta.medico?.foto" [src]="consulta.medico.foto" [alt]="consulta.medicoNome" />
-            <span *ngIf="!consulta.medico?.foto">{{ iniciais(consulta.medicoNome) }}</span>
+            <img *ngIf="consulta.medicoFoto" [src]="consulta.medicoFoto" [alt]="consulta.medicoNome" />
+            <span *ngIf="!consulta.medicoFoto">{{ iniciais(consulta.medicoNome) }}</span>
           </div>
           <span class="status-dot"></span>
         </div>

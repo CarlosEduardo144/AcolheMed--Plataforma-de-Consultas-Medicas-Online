@@ -3,13 +3,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
 <ion-content class="add-horario-content" [fullscreen]="true">
-  <div *ngIf="carregandoInicial; else conteudoHorario" class="page-loading-shell">
-    <div class="page-loading-dots" aria-label="Carregando">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
-
-  <ng-template #conteudoHorario>
   <div class="page-wrapper">
 
     <!-- Hero Banner -->
@@ -39,8 +32,15 @@
     <!-- Corpo branco -->
     <div class="corpo-content">
 
+      <!-- Skeleton do card informativo -->
+      <div class="info-card horario-skeleton-info" *ngIf="carregandoInicial" aria-label="Carregando informações dos horários">
+        <span class="horario-skeleton-icon"></span>
+        <span class="horario-skeleton-line horario-skeleton-info-title"></span>
+        <span class="horario-skeleton-chevron"></span>
+      </div>
+
       <!-- Card informativo -->
-      <div class="info-card">
+      <div class="info-card" *ngIf="!carregandoInicial">
         <button type="button" class="info-header" (click)="toggleInfoExpandido()">
           <div class="info-header-left">
             <div class="info-icon">
@@ -136,8 +136,16 @@
         </div>
       </div>
 
+      <!-- Skeleton dos dias -->
+      <div class="dias-lista horario-skeleton-dias" *ngIf="carregandoInicial" aria-label="Carregando horários">
+        <div class="dia-card horario-skeleton-dia" *ngFor="let dia of [1, 2, 3, 4, 5, 6, 7]">
+          <span class="horario-skeleton-line horario-skeleton-dia-title"></span>
+          <span class="horario-skeleton-checkbox"></span>
+        </div>
+      </div>
+
       <!-- Lista de dias -->
-      <div class="dias-lista">
+      <div class="dias-lista" *ngIf="!carregandoInicial">
         <div class="dia-card" *ngFor="let dia of diasSemana" [class.dia-card--vazio]="!diaConfigurado(dia)">
 
           <button type="button" class="dia-header" (click)="toggleExpandido(dia)">
@@ -242,5 +250,4 @@
   </div>
 
   </div>
-  </ng-template>
 </ion-content>

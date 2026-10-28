@@ -3,7 +3,7 @@ $blue-dark: #1a6fa8;
 $black: #141414;
 $navy: #10243E;
 $gray: #737373;
-$gray-light: #F5F5F5;
+$gray-light: #f7f7f7;
 $border: #E8E8E8;
 $white: #FFFFFF;
 $amber: #F5A623;
@@ -12,6 +12,48 @@ $blue-light: #E8F6FD;
 .perfil-content {
   --background: #{$gray-light}; // fundo cinza claro atrás dos cards, pra eles se destacarem
 }
+
+// ---- Skeleton de carregamento ----
+.medico-skeleton-line,
+.foto-skeleton {
+  background: linear-gradient(100deg, #dcdcdc 25%, #f1f1f1 45%, #dcdcdc 65%);
+  background-size: 250% 100%;
+  animation: medico-skeleton-shimmer 1.3s ease-in-out infinite;
+}
+
+@keyframes medico-skeleton-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+.foto-skeleton {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.medico-skeleton-corpo {
+  gap: 14px;
+}
+
+.medico-skeleton-card {
+  min-height: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 18px;
+}
+
+.medico-skeleton-dados { min-height: 142px; }
+.medico-skeleton-nome { width: 72%; height: 18px; border-radius: 8px; }
+.medico-skeleton-subtitulo { width: 38%; height: 14px; border-radius: 8px; }
+.medico-skeleton-chip { width: 62%; height: 22px; border-radius: 12px; }
+.medico-skeleton-chip-curto { width: 45%; }
+.medico-skeleton-titulo { width: 34%; height: 16px; border-radius: 8px; }
+.medico-skeleton-titulo-medio { width: 42%; }
+.medico-skeleton-conteudo { width: 100%; height: 42px; border-radius: 12px; }
+.medico-skeleton-avaliacoes { min-height: 150px; }
+.medico-skeleton-avaliacoes-bloco { width: 100%; height: 82px; border-radius: 16px; }
+.medico-skeleton-botao { --background: #202020; --color: #ffffff; opacity: 1; }
 
 // ---- Hero Banner ----
 .hero-banner {
@@ -23,6 +65,7 @@ $blue-light: #E8F6FD;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  height: 300px;
 }
 
 .hero-shapes {
@@ -107,8 +150,8 @@ $blue-light: #E8F6FD;
   align-items: center;
   font-size: 40px;
   z-index: 2;
-  width: 130px;
-  height: 130px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   padding: 4px;
   background: rgba(143, 211, 240, 0.419);
@@ -161,7 +204,7 @@ $blue-light: #E8F6FD;
 .perfil-corpo {
   position: relative;
   z-index: 2;
-  margin-top: -36px;
+  margin-top: -45px;
   border-radius: 28px 28px 0 0;
   padding: 10px 20px 16px;
   display: flex;
@@ -174,7 +217,6 @@ $blue-light: #E8F6FD;
   background: $white;
   border-radius: 20px;
   padding: 18px;
-  box-shadow: 0 2px 10px rgba(15, 40, 70, 0.241);
 }
 
 // ---- Dados principais ----
@@ -270,7 +312,7 @@ $blue-light: #E8F6FD;
 
 .section-text {
   font-size: 14px;
-  color: #333;
+  color: #5f5e5e;
   line-height: 1.6;
   margin: 0;
   white-space: pre-line;

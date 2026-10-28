@@ -261,6 +261,19 @@ ion-content.login-content {
   }
 }
 
+.login-spinner {
+  width: 17px;
+  height: 17px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: login-spinner-rotation 0.75s linear infinite;
+}
+
+@keyframes login-spinner-rotation {
+  to { transform: rotate(360deg); }
+}
+
 // ---- Divisor ----
 .divider-container {
   display: flex;

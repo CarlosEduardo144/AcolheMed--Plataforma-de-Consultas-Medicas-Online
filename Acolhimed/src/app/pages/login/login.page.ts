@@ -44,6 +44,7 @@ export class LoginPage {
 
   loginForm: FormGroup;
   showSenha = false;
+  carregandoLogin = false;
 
   constructor(
     private fb: FormBuilder,
@@ -73,6 +74,13 @@ export class LoginPage {
   }
 
   login() {
+    if (this.loginForm.invalid || this.carregandoLogin) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    this.carregandoLogin = true;
+
     const credenciais = {
       email: this.loginForm.value.email,
       senha: this.loginForm.value.senha
@@ -84,6 +92,7 @@ export class LoginPage {
         this.navController.navigateRoot('/inicio');
       },
       error: (erro) => {
+        this.carregandoLogin = false;
         this.exibirMensagem(erro?.error?.message || 'Erro ao tentar logar');
       }
     });

@@ -13,6 +13,78 @@ $blue-light: #b1e0f8;
   --background: #{$white};
 }
 
+// ---- Skeleton de carregamento ----
+.horario-skeleton-line,
+.horario-skeleton-icon,
+.horario-skeleton-chevron,
+.horario-skeleton-checkbox {
+  background: linear-gradient(100deg, #dcdcdc 25%, #f1f1f1 45%, #dcdcdc 65%);
+  background-size: 250% 100%;
+  animation: horario-skeleton-shimmer 1.3s ease-in-out infinite;
+}
+
+@keyframes horario-skeleton-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+.horario-skeleton-info {
+  min-height: 84px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.horario-skeleton-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  flex-shrink: 0;
+}
+
+.horario-skeleton-info-title {
+  width: 68%;
+  height: 16px;
+  border-radius: 8px;
+}
+
+.horario-skeleton-chevron {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.horario-skeleton-dias {
+  gap: 12px;
+}
+
+.horario-skeleton-dia {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  box-sizing: border-box;
+}
+
+.horario-skeleton-dia-title {
+  width: 48%;
+  height: 18px;
+  border-radius: 9px;
+}
+
+.horario-skeleton-checkbox {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 // ---- Hero Banner ----
 .hero-banner {
   height: 120px;

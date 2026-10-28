@@ -3,14 +3,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
 <ion-content class="perfil-content" [fullscreen]="true">
-  <div *ngIf="carregandoInicial; else conteudoMedico" class="page-loading-shell">
-    <div class="page-loading-dots" aria-label="Carregando">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
-
-  <ng-template #conteudoMedico>
-
   <!-- Hero Banner -->
   <div class="hero-banner">
     <div class="hero-shapes">
@@ -31,7 +23,8 @@
       <div class="hero-topbar-spacer"></div>
     </div>
 
-    <div class="foto-wrap">
+    <div class="foto-wrap foto-skeleton" *ngIf="carregandoInicial" aria-label="Carregando foto do médico"></div>
+    <div class="foto-wrap" *ngIf="!carregandoInicial">
       <img *ngIf="medico?.foto" class="foto-medico" [src]="medico?.foto" (click)="toggleFotoAmpliada()"
         [alt]="medico?.nome" />
       <span *ngIf="!medico?.foto">{{ iniciais(medico?.nome) }}</span>
@@ -43,8 +36,32 @@
     <img class="foto-ampliada" [src]="medico?.foto" [alt]="medico?.nome" (click)="$event.stopPropagation()" />
   </div>
 
+  <div class="perfil-corpo medico-skeleton-corpo" *ngIf="carregandoInicial" aria-label="Carregando informações do médico">
+    <div class="info-card medico-skeleton-card medico-skeleton-dados">
+      <span class="medico-skeleton-line medico-skeleton-nome"></span>
+      <span class="medico-skeleton-line medico-skeleton-subtitulo"></span>
+      <span class="medico-skeleton-line medico-skeleton-chip"></span>
+      <span class="medico-skeleton-line medico-skeleton-chip medico-skeleton-chip-curto"></span>
+    </div>
+    <div class="info-card medico-skeleton-card">
+      <span class="medico-skeleton-line medico-skeleton-titulo"></span>
+      <span class="medico-skeleton-line medico-skeleton-conteudo"></span>
+    </div>
+    <div class="info-card medico-skeleton-card">
+      <span class="medico-skeleton-line medico-skeleton-titulo medico-skeleton-titulo-medio"></span>
+      <span class="medico-skeleton-line medico-skeleton-conteudo"></span>
+    </div>
+    <div class="info-card medico-skeleton-card medico-skeleton-avaliacoes">
+      <span class="medico-skeleton-line medico-skeleton-titulo medico-skeleton-titulo-medio"></span>
+      <span class="medico-skeleton-line medico-skeleton-avaliacoes-bloco"></span>
+    </div>
+    <ion-button expand="block" class="botao-agendar medico-skeleton-botao" disabled>
+      Agendar consulta
+    </ion-button>
+  </div>
+
   <!-- Fundo cinza claro por trás dos cards -->
-  <div class="perfil-corpo">
+  <div class="perfil-corpo" *ngIf="!carregandoInicial">
 
     <!-- Card: Dados principais -->
     <div class="info-card dados-principais">
@@ -173,7 +190,5 @@
       Agendar consulta
     </ion-button>
   </div>
-
-  </ng-template>
 
 </ion-content>

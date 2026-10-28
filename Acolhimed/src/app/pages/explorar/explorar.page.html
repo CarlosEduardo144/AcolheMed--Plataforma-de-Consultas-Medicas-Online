@@ -3,14 +3,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
 <ion-content class="explorar-content" [fullscreen]="true">
-  <div *ngIf="carregandoInicial; else conteudoExplorar" class="page-loading-shell">
-    <div class="page-loading-dots" aria-label="Carregando">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
-
-  <ng-template #conteudoExplorar>
-
     <!-- Hero Banner -->
     <div class="hero-banner">
       <div class="hero-shapes">
@@ -27,6 +19,12 @@
         </button> -->
       </div>
 
+      <div class="search-box search-box-skeleton" *ngIf="carregandoInicial; else buscaExplorar" aria-hidden="true">
+        <span class="skeleton-icon"></span>
+        <span class="skeleton-line skeleton-line-search"></span>
+      </div>
+
+      <ng-template #buscaExplorar>
       <div class="search-box">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
           <path
@@ -43,10 +41,24 @@
           </svg>
         </button>
       </div>
+      </ng-template>
+    </div>
+
+    <div class="skeleton-explorar" *ngIf="carregandoInicial" aria-label="Carregando conteúdo">
+      <div class="skeleton-section-title skeleton-line"></div>
+
+      <div class="skeleton-destaques">
+        <div class="skeleton-destaque-card" *ngFor="let item of [1, 2]"></div>
+      </div>
+
+      <div class="skeleton-section-title skeleton-line skeleton-section-title-short"></div>
+      <div class="skeleton-especialidades">
+        <div class="skeleton-especialidade-card" *ngFor="let item of [1, 2, 3, 4, 5, 6]"></div>
+      </div>
     </div>
 
     <!-- Corpo -->
-    <div class="corpo-content">
+    <div class="corpo-content" *ngIf="!carregandoInicial">
 
       <!-- Resultado da busca por especialidades -->
       <div class="section" *ngIf="textoBusca && especialidadesFiltradas.length > 0">
@@ -130,6 +142,10 @@
               Agendar consulta
             </button>
           </div>
+        </div>
+
+        <div class="medicos-lista skeleton-lista" *ngIf="carregandoMedicos" aria-label="Carregando médicos">
+          <div class="skeleton-medico-card" *ngFor="let item of [1, 2]"></div>
         </div>
 
         <!-- Estado vazio: nenhum médico para a especialidade selecionada -->
@@ -228,7 +244,7 @@
     </div>
 
     <!-- Bottom Nav -->
-    <div class="bottom-nav" *ngIf="usuario">
+    <div class="bottom-nav">
       <a routerLink="/inicio" class="nav-item">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
           <path fill-rule="evenodd" clip-rule="evenodd"
@@ -267,6 +283,4 @@
         <span class="nav-label">Perfil</span>
       </a>
     </div>
-  </ng-template>
-
 </ion-content>

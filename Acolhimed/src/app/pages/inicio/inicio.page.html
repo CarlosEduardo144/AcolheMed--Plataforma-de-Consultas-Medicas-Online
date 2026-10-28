@@ -3,13 +3,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
 <ion-content class="inicio-content" [fullscreen]="true">
-  <div *ngIf="carregandoInicial; else conteudoInicio" class="page-loading-shell">
-    <div class="page-loading-dots" aria-label="Carregando">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
-
-  <ng-template #conteudoInicio>
     <div class="inicio-wrapper">
 
       <!-- Hero Banner -->
@@ -91,8 +84,17 @@
 
       </div>
 
+      <div class="inicio-skeleton-body" *ngIf="carregandoInicial" aria-label="Carregando informações">
+        <div class="inicio-skeleton-stats">
+          <div class="inicio-skeleton-stat skeleton-line"></div>
+          <div class="inicio-skeleton-stat skeleton-line"></div>
+        </div>
+        <div class="inicio-skeleton-section skeleton-line"></div>
+        <div class="inicio-skeleton-consulta skeleton-line"></div>
+      </div>
+
       <!-- Corpo branco -->
-      <div class="corpo-content">
+      <div class="corpo-content" *ngIf="!carregandoInicial">
 
         <!-- Stats -->
         <div class="stats-row">
@@ -106,10 +108,10 @@
             </div>
             @if(usuario?.tipoUsuario == "medico"){
             <span class="stat-label">Consultas para hoje</span>
-            <span class="stat-numero">{{qtdConsultas}}</span>
+            <span class="stat-numero">{{dashBoard?.totalconsultasHoje}}</span>
             } @else{
             <span class="stat-label">Especialidades</span>
-            <span class="stat-numero">{{ especialidadesDisponiveis }}</span>
+            <span class="stat-numero">{{dashBoard?.totalEspecialidades}}</span>
             }
 
           </div>
@@ -124,10 +126,10 @@
             </div>
             @if(usuario?.tipoUsuario == "medico"){
             <span class="stat-label">Pacientes atendidos</span>
-            <span class="stat-numero">{{qtdPacientesAtendidos}}</span>
+            <span class="stat-numero">{{dashBoard?.totalPacientesAtendidos}}</span>
             } @else{
             <span class="stat-label">Médicos disponíveis</span>
-            <span class="stat-numero">{{ medicosDisponiveis }}</span>
+            <span class="stat-numero">{{dashBoard?.totalMedicos}}</span>
             }
 
           </div>
@@ -138,7 +140,7 @@
         <ng-container>
           <h2 class="secao-titulo">Consulta em andamento</h2>
 
-          <div style="background-color: rgb(240, 240, 240); border-radius: 25px;" *ngIf="consultaEmAndamento.id == ''"
+          <div style="background-color: rgb(240, 240, 240); border-radius: 25px;" *ngIf="!consultaEmAndamento"
             class="empty-state">
             <div class="empty-illustration">
               <svg width="100" height="100" viewBox="0 0 140 140" fill="none">
@@ -154,21 +156,21 @@
             <h3 style="font-size: 15px; color: gray;">Nenhuma consulta por aqui</h3>
           </div>
 
-          <div *ngIf="consultaEmAndamento.id != ''" class="consulta-card">
+          <div class="consulta-card" *ngIf="consultaEmAndamento">
             <div class="consulta-topo">
               <div class="avatar-medico-wrap">
                 <div class="avatar-medico">
                   @if (usuario?.tipoUsuario === 'paciente') {
-                  @if (consultaEmAndamento?.medico?.foto) {
-                  <img [src]="consultaEmAndamento.medico.foto" alt="Foto do Médico" />
+                  @if (consultaEmAndamento?.medicoFoto) {
+                  <img [src]="consultaEmAndamento?.medicoFoto" alt="Foto do Médico" />
                   } @else {
-                  <span>{{ iniciais(consultaEmAndamento?.medico?.nome) }}</span>
+                  <span>{{ iniciais(consultaEmAndamento?.medicoNome) }}</span>
                   }
                   } @else if (usuario?.tipoUsuario === 'medico') {
-                  @if (consultaEmAndamento?.paciente?.foto) {
-                  <img [src]="consultaEmAndamento.paciente.foto" alt="Foto do Paciente" />
+                  @if (consultaEmAndamento?.pacienteFoto) {
+                  <img [src]="consultaEmAndamento?.pacienteFoto" alt="Foto do Paciente" />
                   } @else {
-                  <span>{{ iniciais(consultaEmAndamento?.paciente?.nome) }}</span>
+                  <span>{{ iniciais(consultaEmAndamento?.pacienteNome) }}</span>
                   }
                   }
                 </div>
@@ -176,25 +178,24 @@
               </div>
               @if(usuario?.tipoUsuario == "paciente"){
               <div class="consulta-info">
-                <span class="medico-nome">Dr. {{consultaEmAndamento.medicoNome}}</span>
-                <span class="medico-especialidade">{{consultaEmAndamento.especialidadeNome}} •
-                  {{consultaEmAndamento.medico.crm}}-{{consultaEmAndamento.medico.ufEmissao}}</span>
+                <span class="medico-nome">Dr. {{consultaEmAndamento?.medicoNome}}</span>
+                <span class="medico-especialidade">{{consultaEmAndamento?.especialidadeNome}}</span>
                 <span class="consulta-horario-chip">
                   <span class="dot-chip"></span>
-                  Hoje, às {{consultaEmAndamento.dataHora | date:'HH:mm'}}
+                  Hoje, às {{consultaEmAndamento?.dataHora | date:'HH:mm'}}
                 </span>
-                <span *ngIf="consultaEmAndamento.status == 'em_andamento'" class="medico-especialidade">O médico já iniciou a chamada</span>
+                <span *ngIf="consultaEmAndamento?.status == 'em_andamento'" class="medico-especialidade">O médico já iniciou a chamada</span>
 
               </div>
               }@else{
               <div class="consulta-info">
-                <span class="medico-nome">{{consultaEmAndamento.pacienteNome}}</span>
-                <span class="medico-especialidade">{{consultaEmAndamento.especialidadeNome}}</span>
+                <span class="medico-nome">{{consultaEmAndamento?.pacienteNome}}</span>
+                <span class="medico-especialidade">{{consultaEmAndamento?.especialidadeNome}}</span>
                 <span class="consulta-horario-chip">
                   <span class="dot-chip"></span>
-                  Hoje, às {{consultaEmAndamento.dataHora | date:'HH:mm'}}
+                  Hoje, às {{consultaEmAndamento?.dataHora | date:'HH:mm'}}
                 </span>
-                <span *ngIf="consultaEmAndamento.status == 'em_andamento'" class="medico-especialidade">O paciente já iniciou a chamada</span>
+                <span *ngIf="consultaEmAndamento?.status == 'em_andamento'" class="medico-especialidade">O paciente já iniciou a chamada</span>
               </div>
               }
             </div>
@@ -225,10 +226,8 @@
 
     </div>
 
-  </ng-template>
-
   <!-- Bottom Nav -->
-  @if(!carregandoInicial && usuario && usuario?.tipoUsuario == "paciente"){
+  @if(carregandoInicial || (usuario && usuario?.tipoUsuario == "paciente")){
   <div class="bottom-nav">
     <a routerLink="/inicio" class="nav-item">
       <div class="nav-icon-wrap nav-icon-wrap--active">

@@ -53,7 +53,6 @@ export class PerfilPage {
   notificacoesAtivas = false;
 
   usuario!: UsuarioModel | MedicoModel;
-  possuiHorarios = true;
   carregandoInicial = true;
   token: TokenModel
 
@@ -66,7 +65,6 @@ export class PerfilPage {
     private router: Router
   ) {
     this.token = new TokenModel();
-    this.buscarUsuario();
   }
 
   ngOnInit() {
@@ -75,24 +73,6 @@ export class PerfilPage {
       this.exibirMensagem('Erro ao identificar usuário.');
       return;
     }
-  }
-
-  checarHorarios() {
-    this.horarioService.buscarPorMedico(this.token.id).subscribe({
-      next: (horarios) => {
-        if (horarios) {
-          horarios.forEach(horario => {
-            if (horario.manha == true || horario.tarde == true || horario.noite == true) {
-              this.possuiHorarios = false;
-            }
-          });
-        }
-        this.carregandoInicial = false;
-      },
-      error: () => {
-        this.carregandoInicial = false;
-      }
-    });
   }
 
   ionViewWillEnter() {
@@ -118,28 +98,16 @@ export class PerfilPage {
 
   buscarUsuario() {
     this.carregandoInicial = true;
-    this.possuiHorarios = true;
 
     this.usuarioService.buscarPorId(this.token.id).subscribe({
       next: (usuario) => {
         this.usuario = usuario;
-
-        if (!this.usuario) {
-          this.navController.navigateBack('/login');
-          return;
-        }
-
-        if (this.usuario.tipoUsuario == "medico") {
-          this.checarHorarios();
-          return;
-        }
-
         this.carregandoInicial = false;
       },
       error: (erro) => {
         console.error(erro);
         this.carregandoInicial = false;
-        this.exibirMensagem(erro.error.message);
+        this.exibirMensagem(erro.error?.message || 'Erro ao carregar usuário');
       }
     });
   }

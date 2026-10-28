@@ -154,7 +154,7 @@ export class AlterarDadosPage implements OnInit, OnDestroy {
     if (usuarioAtualizado.dataNascimento.includes('T')) {
       usuarioAtualizado.dataNascimento = usuarioAtualizado.dataNascimento.split('T')[0];
     }
-    usuarioAtualizado.cpf = this.alterarForm.value.cpf;
+    usuarioAtualizado.cpf = this.alterarForm.value.cpf?.replace(/\D/g, '');
 
     this.usuarioService.salvar(usuarioAtualizado).subscribe({
       next: () => {

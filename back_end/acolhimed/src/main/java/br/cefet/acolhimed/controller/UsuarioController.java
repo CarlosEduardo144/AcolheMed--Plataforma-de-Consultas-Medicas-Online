@@ -15,12 +15,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import br.cefet.acolhimed.service.MedicoService;
 import br.cefet.acolhimed.service.UsuarioService;
+import br.cefet.acolhimed.dto.DashBoardDTO;
 import br.cefet.acolhimed.dto.LoginRequestDTO;
-import br.cefet.acolhimed.dto.MedicoResponseDTO;
 import br.cefet.acolhimed.dto.UsuarioResponseDTO;
-
 
 @RestController
 @RequestMapping("/usuarios")
@@ -29,6 +27,13 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService UsuarioService;
+
+    @GetMapping("/dashBoard")
+    @Operation(summary = "Retornar dados da página inicial")
+    public ResponseEntity<DashBoardDTO> getDashBoard() {
+        DashBoardDTO dashBoard = UsuarioService.getDashBoard();
+        return ResponseEntity.ok(dashBoard);
+    }
 
     @GetMapping
     @Operation(summary = "Listar usuários")

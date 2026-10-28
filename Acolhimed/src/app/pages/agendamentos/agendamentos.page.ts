@@ -41,7 +41,6 @@ export class AgendamentosPage implements OnInit {
   StatusConsulta = StatusConsulta; // exposto pro template
   consultas: ConsultaResponseModel[];
   consultasCarregadas = false;
-  usuario: any;
   token: TokenModel;
 
   painelFiltroAberto = false;
@@ -73,21 +72,19 @@ export class AgendamentosPage implements OnInit {
     if (!this.token.id) {
       this.exibirMensagem('Erro ao identificar usuário.');
       return;
-    }else{
-      this.carregarUsuario();
+    } else {
+      this.carregarConsultas();
     }
-    
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.fecharPopup();
-    this.carregarUsuario();
   }
 
   carregarConsultas() {
     this.consultasCarregadas = false;
 
-    this.consultaService.getConsultas(this.usuario?.id).subscribe({
+    this.consultaService.getConsultas(this.token.id).subscribe({
       next: (consultas) => {
         // dataHora vem como string (ISO) da API — converte pra Date de verdade
         this.consultas = consultas.map(c => ({
@@ -100,26 +97,6 @@ export class AgendamentosPage implements OnInit {
         console.error('Erro ao carregar médico', erro)
         this.consultasCarregadas = true;
         this.exibirMensagem("Erro ao carregar consultas: " + erro.error.message);
-      }
-    });
-  }
-
-  carregarUsuario() {
-    this.usuarioService.buscarPorId(this.token.id).subscribe({
-      next: (usuario) => {
-        this.usuario = usuario;
-
-        if (!this.usuario) {
-          this.navCtrl.navigateBack('/login');
-        }
-
-        this.carregarConsultas();
-
-      },
-      error: (erro) => {
-        console.error(erro);
-        this.consultasCarregadas = true;
-        this.exibirMensagem("Erro ao carregar usuário" + erro.error.message);
       }
     });
   }

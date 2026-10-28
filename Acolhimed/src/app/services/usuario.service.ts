@@ -6,6 +6,7 @@ import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { PacienteModel } from '../model/paciente.model';
 import { TokenService } from './token-service';
+import { DashBoardModel } from '../model/dash-board-model';
 
 
 @Injectable({
@@ -32,6 +33,10 @@ export class UsuarioService {
     }
 
 
+  }
+
+  getDashBoard(): Observable<DashBoardModel> {
+    return this.http.get<DashBoardModel>(`${this.API_URL}/usuarios/dashBoard`, { headers: this.tokenService.gerarCabecalhoAutenticacao() });
   }
 
   getMedicos() {

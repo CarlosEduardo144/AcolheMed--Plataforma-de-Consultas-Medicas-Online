@@ -1,7 +1,6 @@
 package br.cefet.acolhimed.service;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.cefet.acolhimed.dto.EspecialidadeResponseDTO;
 import br.cefet.acolhimed.dto.MedicoRequestDTO;
 import br.cefet.acolhimed.dto.MedicoResponseDTO;
 import br.cefet.acolhimed.entity.Medico;
@@ -41,7 +39,16 @@ public class MedicoService {
 
     public MedicoResponseDTO montarDTO(Medico medico) {
         Double media = avaliacaoRepository.calcularMediaAvaliacao(medico.getId());
+        return montarDTO(medico, media);
+    }
+
+    private MedicoResponseDTO montarDTO(Medico medico, Double media) {
         return new MedicoResponseDTO(medico, media);
+    }
+
+    @Transactional(readOnly = true)
+    public long contarMedicos() {
+        return MedicoRepository.count();
     }
 
     @Transactional(readOnly = true)
@@ -54,22 +61,11 @@ public class MedicoService {
 
     @Transactional(readOnly = true)
     public List<MedicoResponseDTO> listarMedicosBemAvaliados() {
-
-        List<Medico> medicos = MedicoRepository.findAll();
-
-        return medicos.stream()
-                .map(medico -> {
-                    Double media = avaliacaoRepository
-                            .calcularMediaAvaliacao(medico.getId());
-
-                    return new MedicoResponseDTO(medico, media);
-                })
-                .filter(medico -> medico.getMediaAvaliacao() != null
-                        && medico.getMediaAvaliacao() >= 4.0)
-                .sorted(
-                        Comparator.comparing(
-                                MedicoResponseDTO::getMediaAvaliacao,
-                                Comparator.reverseOrder()))
+        return MedicoRepository.buscarMedicosBemAvaliados()
+                .stream()
+                .map(resultado -> montarDTO(
+                        (Medico) resultado[0],
+                        ((Number) resultado[1]).doubleValue()))
                 .limit(20)
                 .toList();
     }
@@ -120,6 +116,7 @@ public class MedicoService {
             throw new BusinessException("Já existe um usuário com esse e-mail.");
         }
 
+        validarDataNascimento(dto);
         // Busca se alguem usa o cpf
         Optional<Medico> usuarioComMesmoCpf = MedicoRepository.findByCpf(dto.getCpf());
 
@@ -128,8 +125,6 @@ public class MedicoService {
         if (usuarioComMesmoCpf.isPresent() && !usuarioComMesmoCpf.get().getId().equals(medicoId)) {
             throw new BusinessException("Já existe um usuário com esse CPF.");
         }
-
-        validarDataNascimento(dto);
 
         medico.setNome(dto.getNome());
         medico.setEmail(dto.getEmail());
@@ -148,8 +143,8 @@ public class MedicoService {
         return montarDTO(MedicoRepository.save(medico));
     }
 
-    private boolean validarDataNascimento(MedicoRequestDTO dto){
-         if (dto.getDataNascimento() == null) {
+    private boolean validarDataNascimento(MedicoRequestDTO dto) {
+        if (dto.getDataNascimento() == null) {
             throw new BusinessException("A data de nascimento é obrigatória.");
         }
 

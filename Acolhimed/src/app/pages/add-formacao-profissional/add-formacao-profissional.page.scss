@@ -16,6 +16,59 @@ $warn: #F59E0B;
   --background: #F4F7FB;
 }
 
+// ---- Skeleton de carregamento ----
+.formacao-skeleton-line,
+.formacao-skeleton-icon,
+.formacao-skeleton-tip {
+  background: linear-gradient(100deg, #dcdcdc 25%, #f1f1f1 45%, #dcdcdc 65%);
+  background-size: 250% 100%;
+  animation: formacao-skeleton-shimmer 1.3s ease-in-out infinite;
+}
+
+@keyframes formacao-skeleton-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+.formacao-skeleton-card {
+  min-height: calc(100vh - 190px);
+}
+
+.formacao-skeleton-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.formacao-skeleton-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.formacao-skeleton-title { width: 118px; height: 18px; border-radius: 9px; }
+
+.formacao-skeleton-tip {
+  width: 100%;
+  height: 76px;
+  border-radius: 14px;
+  margin-bottom: 28px;
+}
+
+.formacao-skeleton-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.formacao-skeleton-label { width: 170px; height: 14px; border-radius: 8px; }
+.formacao-skeleton-label-short { width: 105px; }
+.formacao-skeleton-textarea { width: 100%; height: 170px; border-radius: 14px; }
+.formacao-skeleton-textarea-large { height: 205px; }
+
 // ---- Hero Banner ----
 .hero-banner {
   height: 120px;

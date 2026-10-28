@@ -16,6 +16,141 @@ $navy: #10243E;
   position: relative;
 }
 
+// ---- Skeleton loading ----
+.inicio-skeleton {
+  min-height: 100%;
+  padding-bottom: 110px;
+  background: #fafafa;
+}
+
+.inicio-skeleton-body {
+  padding: 1px 0 110px;
+  background: #fafafa;
+}
+
+.inicio-skeleton-hero,
+.inicio-skeleton-avatar,
+.inicio-skeleton-greeting,
+.inicio-skeleton-section,
+.inicio-skeleton-stat,
+.inicio-skeleton-consulta {
+  background: linear-gradient(100deg, #d7e1ec 25%, #edf2f7 45%, #d7e1ec 65%);
+  background-size: 250% 100%;
+  animation: skeleton-shimmer-inicio 1.3s ease-in-out infinite;
+}
+
+.inicio-skeleton-hero {
+  position: relative;
+  height: 330px;
+  padding: 32px 24px;
+  border-radius: 0 0 28px 28px;
+  color: white;
+}
+
+.inicio-skeleton-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-bottom: 24px;
+}
+
+.inicio-skeleton-greeting {
+  width: 165px;
+  height: 16px;
+  border-radius: 6px;
+  margin: 2px 0 0 56px;
+}
+
+.inicio-skeleton-hero h1 {
+  position: relative;
+  margin: 26px 0 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 28px;
+  line-height: 1.08;
+}
+
+.inicio-skeleton-hero p {
+  position: relative;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.inicio-skeleton-notificacao {
+  position: absolute;
+  top: 30px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.inicio-skeleton-cta {
+  position: absolute;
+  right: 20px;
+  bottom: 30px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 74px;
+  padding: 0 18px;
+  border-radius: 20px;
+  background: white;
+  color: #333;
+  font-size: 16px;
+}
+
+.inicio-skeleton-cta-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 50%;
+  background: #29abe2;
+  color: white;
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.inicio-skeleton-cta-arrow {
+  margin-left: auto;
+  color: #29abe2;
+  font-size: 32px;
+}
+
+.inicio-skeleton-section {
+  width: 145px;
+  height: 18px;
+  border-radius: 6px;
+  margin: 0 24px 14px;
+}
+
+.inicio-skeleton-stats {
+  display: flex;
+  gap: 12px;
+  margin: 28px 20px 26px;
+}
+
+.inicio-skeleton-stat {
+  height: 92px;
+  flex: 1;
+  border-radius: 18px;
+}
+
+.inicio-skeleton-consulta {
+  height: 160px;
+  border-radius: 20px;
+  margin: 0 20px;
+}
+
+@keyframes skeleton-shimmer-inicio {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
 // ---- Hero Banner ----
 .hero-banner {
   position: relative;

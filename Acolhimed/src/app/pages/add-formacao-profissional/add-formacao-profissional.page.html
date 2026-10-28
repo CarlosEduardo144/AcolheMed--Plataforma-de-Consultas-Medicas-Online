@@ -3,14 +3,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
 <ion-content class="alterar-content" [fullscreen]="true">
-  <div *ngIf="carregandoInicial; else conteudoFormacao" class="page-loading-shell">
-    <div class="page-loading-dots" aria-label="Carregando">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
-
-  <ng-template #conteudoFormacao>
-
   <!-- Hero Banner -->
   <div class="hero-banner">
     <div class="hero-shapes">
@@ -36,8 +28,28 @@
 
   </div>
 
+  <!-- Skeleton do formulário enquanto os dados são carregados -->
+  <div class="form-card formacao-skeleton-card" *ngIf="carregandoInicial" aria-label="Carregando perfil profissional">
+    <div class="formacao-skeleton-section">
+      <span class="formacao-skeleton-icon"></span>
+      <span class="formacao-skeleton-line formacao-skeleton-title"></span>
+    </div>
+
+    <div class="formacao-skeleton-tip"></div>
+
+    <div class="formacao-skeleton-field">
+      <span class="formacao-skeleton-line formacao-skeleton-label"></span>
+      <span class="formacao-skeleton-line formacao-skeleton-textarea"></span>
+    </div>
+
+    <div class="formacao-skeleton-field">
+      <span class="formacao-skeleton-line formacao-skeleton-label formacao-skeleton-label-short"></span>
+      <span class="formacao-skeleton-line formacao-skeleton-textarea formacao-skeleton-textarea-large"></span>
+    </div>
+  </div>
+
   <!-- Form Card -->
-  <div class="form-card">
+  <div class="form-card" *ngIf="!carregandoInicial">
 
     <form [formGroup]="alterarForm" (ngSubmit)="salvar()">
 
@@ -127,6 +139,5 @@
 
     </form>
   </div>
-  </ng-template>
 
 </ion-content>

@@ -43,10 +43,6 @@ export class ConsultaService {
     return this.http.patch<ConsultaResponseModel>(`${this.API_URL}/consultas/em_andamento/${consultaId}`, {}, { headers: this.tokenService.gerarCabecalhoAutenticacao() });
   }
 
-  buscarConsultasEmAndamento(usuarioId: string): Observable<ConsultaResponseModel> {
-    return this.http.get<ConsultaResponseModel>(`${this.API_URL}/consultas/em_andamento`, { headers: this.tokenService.gerarCabecalhoAutenticacao() });
-  }
-
   private montarPayload(consulta: {
   dataHora: Date;
   medicoId: string;

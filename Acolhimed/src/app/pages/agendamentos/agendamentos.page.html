@@ -9,13 +9,6 @@
   rel="stylesheet">
 
 <ion-content class="consultas-content" [fullscreen]="true">
-  <div *ngIf="!consultasCarregadas; else conteudoConsultas" class="page-loading-shell">
-    <div class="page-loading-dots" aria-label="Carregando">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
-
-  <ng-template #conteudoConsultas>
     <div class="page-wrapper">
 
       <!-- Hero Banner -->
@@ -139,13 +132,10 @@
           </div>
         </div>
 
-        <!-- Estado de carregamento: aparece enquanto consultasCarregadas === false -->
+        <!-- Skeleton durante o carregamento inicial -->
         <ng-container *ngIf="!consultasCarregadas">
-          <div class="loading-state">
-            <div class="page-loading-dots" aria-label="Carregando">
-              <span></span><span></span><span></span>
-            </div>
-            <p class="loading-texto">Carregando suas consultas...</p>
+          <div class="skeleton-consultas" aria-label="Carregando agendamentos">
+            <div class="skeleton-consulta-card" *ngFor="let item of [1, 2, 3]"></div>
           </div>
         </ng-container>
 
@@ -195,9 +185,9 @@
                 <div class="consulta-card">
                   <div class="consulta-topo">
                     <div class="medico-avatar">
-                      <img *ngIf="consulta.paciente?.foto" [src]="consulta.paciente.foto"
+                      <img *ngIf="consulta.pacienteFoto" [src]="consulta.pacienteFoto"
                         [alt]="consulta.pacienteNome" />
-                      <span *ngIf="!consulta.paciente?.foto">{{ iniciais(consulta.pacienteNome) }}</span>
+                      <span *ngIf="!consulta.pacienteFoto">{{ iniciais(consulta.pacienteNome) }}</span>
                     </div>
                     <div class="consulta-info">
                       <span class="medico-nome" style="font-family: 'Nunito', Arial, sans-serif;">{{
@@ -293,7 +283,7 @@
     </div>
 
     <!-- Bottom Nav -->
-    <div class="bottom-nav" *ngIf="usuario && !consultaSelecionada">
+    <div class="bottom-nav" *ngIf="!consultaSelecionada">
       <a routerLink="/inicio" class="nav-item">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
           <path fill-rule="evenodd" clip-rule="evenodd"
@@ -324,8 +314,6 @@
         <span class="nav-label">Perfil</span>
       </a>
     </div>
-  </ng-template>
-
   <!--Pop up conuslta-->
 
   <!-- Backdrop -->
@@ -350,9 +338,9 @@
       <div class="sheet-body">
         <div class="detalhe-medico">
           <div class="medico-avatar medico-avatar--grande">
-            <img *ngIf="consultaSelecionada.paciente?.foto" [src]="consultaSelecionada.paciente.foto"
+            <img *ngIf="consultaSelecionada.pacienteFoto" [src]="consultaSelecionada.pacienteFoto"
               [alt]="consultaSelecionada.pacienteNome" />
-            <span *ngIf="!consultaSelecionada.paciente?.foto">{{ iniciais(consultaSelecionada.pacienteNome) }}</span>
+            <span *ngIf="!consultaSelecionada.pacienteFoto">{{ iniciais(consultaSelecionada.pacienteNome) }}</span>
           </div>
           <div>
             <p class="detalhe-nome" style="font-family: 'Nunito', Arial, sans-serif;"> Paciente {{
